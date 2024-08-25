@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  # Service for the Node.js application
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      DB_HOST: mysql
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_NAME: task_management_db
+    depends_on:
+      - mysql
+
+  # Service for the MySQL database
+  mysql:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: task_management_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+# Docker named volume for persistent data storage
+volumes:
+  mysql_data:
